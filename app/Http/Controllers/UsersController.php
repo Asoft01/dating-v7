@@ -11,6 +11,7 @@ use App\UsersPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use Image;
@@ -166,7 +167,7 @@ class UsersController extends Controller
                     Image::make($file)->resize(600, 600)->save($image_path);
 
                     // Add photo at users_photos table
-                    
+
                     $photo = new UsersPhoto();
                     $photo->photo= $fileName;
                     $photo->user_id = $data['user_id'];
@@ -175,7 +176,24 @@ class UsersController extends Controller
                 return redirect('/step/3')->with('flash_message_success', 'Your photos(s) has been uploaded successfullly');
             }
         }
-        return view('users.step3');
+
+        $user_id = Auth::User()->id;
+        $user_photos = UsersPhoto::where('user_id', $user_id)->get();
+        $user_photos = json_decode(json_encode($user_photos));
+        // echo "<pre>"; print_r($user_photos); die;
+        return view('users.step3')->with(compact('user_photos'));
+    }
+
+    public function deletePhoto($photo){
+        // echo $photo; echo "---";
+    //    echo $user_id = Auth::User()->id; die;
+       $user_id = Auth::User()->id; 
+       UsersPhoto::where(['user_id'=> $user_id, 'photo'=> $photo])->delete();
+       // Delete from photos folder with PHP unlink function
+       
+    //    unlink('images/frontend_images/photos/'.$photo); //Unlink function not working
+       File::delete('images/frontend_images/photos/'.$photo);
+       return redirect()->back()->with('flash_message_success', 'Photo has been deleted successfully');
     }
 
     public function login(Request $request){
@@ -223,7 +241,8 @@ class UsersController extends Controller
     public function viewUsers(){
         // $users = User::get();
         // $users = User::where('admin', '!=', '1')->get();
-        $users = User::with('details')->where('admin', '!=', '1')->get();
+        // $users = User::with('details')->where('admin', '!=', '1')->get();
+        $users = User::with('details')->with('photos')->where('admin', '!=', '1')->get();
         $users = json_decode(json_encode($users), true);
         // echo "<pre>"; print_r($users); die;
         return view('admin.users.view_users')->with(compact('users'));
@@ -237,5 +256,10 @@ class UsersController extends Controller
         // }else{
         //     echo 'false';
         // }
+    }
+
+    public function updatePhotoStatus(Request $request){
+        $data = $request->all();
+        UsersPhoto::where('id', $data['photo_id'])->update(['status' => $data['status']]);
     }
 }

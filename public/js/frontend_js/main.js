@@ -44,6 +44,31 @@ $().ready(function() {
         }
     });
 
+    $('.deletePhoto').click(function(){
+		// alert("Hello");
+		var photo = $(this).attr('rel');
+		swal({
+			title: 'Are you Sure?',
+			text: 'You will not be able to recover this record again!',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, Delete It',
+			cancelButtonText: 'No Cancel',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false,
+			reverseButtons: true
+		},
+			function(){
+				window.location.href="/delete-photo/"+photo;
+				// window.location.href= "/admin/view-products";
+			}
+		);
+		// return false;
+	});
+
      // validate signup form on keyup and submit
      $("#datingForm").validate({
         rules: {

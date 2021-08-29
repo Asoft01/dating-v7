@@ -1,0 +1,39 @@
+
+https://www.free-css.com/free-css-templates/page113/love-story
+
+http://jqueryvalidation.org/
+
+https://packagist.org/packages/captcha-com/laravel-captcha
+
+composer require buzz/laravel-google-captcha
+
+Then in config.php, add this under the provider
+
+Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider::class,
+
+php artisan vendor:publish --provider="Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider"
+
+https://www.laravelcode.com/post/laravel-55-google-recaptcha-code-with-validation-example
+
+while the installation is going on, we can get the keys from Google by Opening below link;
+https://developers.google.com/recaptcha/intro
+
+
+/////////////////// For Password Checking if Strong or Not ////////////////////////
+http://jsfiddle.net/aleem/KE3RB/8/
+
+Front Login
+
+php artisan make:middleware FrontLogin
+
+https://laracasts.com/discuss/channels/general-discussion/a-date-picker
+
+php artisan make:migration create_users_details_table
+
+https://github.com/raramuridesign/mysql-country-list/blob/master/country-lists/mysql-country-list.sql
+
+https://github.com/Voles/MySQL-ISO-639-1-language-codes/blob/master/db.sql
+
+php artisan make:migration add_columns_to_users_details
+
+https://cdnjs.com/libraries/sweetalert

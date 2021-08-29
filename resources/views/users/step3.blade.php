@@ -19,7 +19,8 @@
         @endif 
       <div> You can upload your multiple photos of your choice<strong> <br />
        </strong><br />
-        <br /></div>
+        <br />
+      </div>
       <div> <br />
         <h6 class="inner">Upload Photos:</h6>
         <br />
@@ -40,7 +41,24 @@
             </table>
           </form>
       </div>
-     
+      
+      <div class="recent_add_prifile">
+        @foreach ($user_photos as $photo )
+          <div class="profile_box first"> 
+            <span class="photo"><a href="#"><img src="/images/frontend_images/photos/{{ $photo->photo }}" alt="" /></a></span>
+            <p class="left">Status:</p>
+            <p class="right">
+              @if($photo->status== 1)
+                Active
+              @else
+                Inactive
+              @endif
+            </p>
+            <p>&nbsp;</p>
+            {{-- <a href="/delete-photo/{{ $photo->photo }}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></p> --}}
+            <a rel="{{ $photo->photo }}" href="javascript:" class="deletePhoto"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></p>
+      </div> 
+      @endforeach
     </div>
     <div class="clear"></div>
   </div>

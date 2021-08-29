@@ -23,6 +23,7 @@ Route::group(['middleware'=> ['frontlogin']], function(){
     Route::any('/step/2', 'UsersController@step2');
     Route::any('/step/3', 'UsersController@step3');
     Route::get('/review', 'UsersController@review');    
+    Route::get('/delete-photo/{photo}', 'UsersController@deletePhoto');    
 });
 
 
@@ -47,5 +48,6 @@ Route::group(['middleware' => ['adminlogin']], function(){
     // Users Routes
     Route::get('admin/view-users', 'UsersController@viewUsers');
     Route::post('admin/update-user-status', 'UsersController@updateUserStatus');
+    Route::post('admin/update-photo-status', 'UsersController@updatePhotoStatus');
 
 });

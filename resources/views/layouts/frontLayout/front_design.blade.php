@@ -11,11 +11,13 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href=" {{ asset('css/backend_css/bootstrap.min.css' )}} " />
 <link rel="stylesheet" href=" {{ asset('css/backend_css/bootstrap-responsive.min.css' )}} " />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" />
 <script src="{{ asset('js/frontend_js/jquery.js') }}"></script>
 <script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>
 <script src="{{ asset('js/frontend_js/additional-methods.js') }}"></script>
 <script src="{{ asset('js/frontend_js/main.js') }}"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
 <script>
     $(function() {
       $( "#dob" ).datepicker({ 
