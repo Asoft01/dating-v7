@@ -18,6 +18,8 @@
 <script src="{{ asset('js/frontend_js/main.js') }}"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+{{-- <script type="text/javascript" src="https://slideshow.triptracker.net/slide.js"></script> --}}
+<script type="text/javascript" src="{{ asset('js/frontend_js/slide.js') }}"></script>
 <script>
     $(function() {
       $( "#dob" ).datepicker({ 

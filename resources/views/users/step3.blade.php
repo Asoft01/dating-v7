@@ -67,7 +67,9 @@
                   <a rel="{{ $photo->photo }}" href="javascript:" class="deletePhoto"><button type="button" class="btn btn-danger btn-sm">Delete</button>
                 </td>
                 <td>
-                  <a href="/default-photo/{{ $photo->photo }}"><button type="button" class="btn btn-danger btn-sm">Default</button>
+                  @if($photo->default_photo != "Yes")
+                    <a href="/default-photo/{{ $photo->photo }}"><button type="button" class="btn btn-danger btn-sm">Default</button>
+                  @endif
                 </td>
                 <tr>
               </a>

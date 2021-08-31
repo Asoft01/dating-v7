@@ -15,9 +15,9 @@
         @endforeach
       <div>
           @if(!empty($user_photo))
-                <img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" width="177" height="117" class="aboutus-img" />
+                <img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" width="177" class="aboutus-img" />
             @else
-                <img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" width="177" height="117" class="aboutus-img" />
+                <img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" width="177" class="aboutus-img" />
           @endif
         <strong>Profile ID: </strong> {{ $userDetails->username }} <br>
         <strong>Name: </strong> {{ $userDetails->name }}<br>
@@ -31,11 +31,19 @@
         <strong>Body Type: </strong> {{ $userDetails->details->body_type }}<br>
         <strong>Complexion: </strong> {{ $userDetails->details->complexion }}<br>
         <strong>Languages: </strong> {{ $userDetails->details->languages }}<br>
-        <strong>Hobbies: </strong> {{ $userDetails->details->hobbies }}
-        <strong>City: </strong> {{ $userDetails->details->city }}
-        <strong>State: </strong> {{ $userDetails->details->state }}
-        <strong>Country: </strong> {{ $userDetails->details->country }}
-        <br />
+        <strong>Hobbies: </strong> {{ $userDetails->details->hobbies }}<br>
+        <strong>City: </strong> {{ $userDetails->details->city }}<br>
+        <strong>State: </strong> {{ $userDetails->details->state }}<br>
+        <strong>Country: </strong> {{ $userDetails->details->country }}<br>
+        <strong style="float:right;">
+            <script type="text/javascript">
+                  var viewer = new PhotoViewer();
+                  @foreach($userDetails->photos as $key => $photo )
+                    viewer.add('/images/frontend_images/photos/<?php echo $userDetails->photos[$key]->photo ?>');
+                  @endforeach
+            </script>
+                <a href="javascript:void(viewer.show(0))">Photo Album</a>
+        </strong>
       
         <div class="clear"></div>
       </div>

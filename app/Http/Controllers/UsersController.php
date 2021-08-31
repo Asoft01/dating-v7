@@ -209,6 +209,7 @@ class UsersController extends Controller
         // Make selected Photo Default
         UsersPhoto::where(['user_id'=> $user_id, 'photo'=> $photo])->update(['default_photo' => 'Yes']);
         
+        
        return redirect()->back()->with('flash_message_success', 'Default Photo has been set successfully');
     }
 
