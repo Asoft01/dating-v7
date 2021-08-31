@@ -17,6 +17,10 @@ $().ready(function() {
                 minlength: 6,
                 equalTo: "#user_password"
             },
+            username: {
+                required: true,
+                remote: "/check-username"
+            },
             email: {
                 required: true,
                 email: true,
@@ -30,6 +34,10 @@ $().ready(function() {
                 required: "Please enter your Email",
                 email: "Please enter valid Email",
                 remote: "Email already Exist"
+            },
+            email: {
+                required: "Please enter your Username",
+                remote: "Username already exists"
             },
             password: {
                 required: "Please provide your password",

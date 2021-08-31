@@ -37,3 +37,5 @@ https://github.com/Voles/MySQL-ISO-639-1-language-codes/blob/master/db.sql
 php artisan make:migration add_columns_to_users_details
 
 https://cdnjs.com/libraries/sweetalert
+
+Section #29 fixed captcha issues 

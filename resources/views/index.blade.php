@@ -37,15 +37,18 @@
 					<div class="profile_box first"> 
 						@foreach($user->photos as $key => $photo)
 							@if($photo->default_photo == "Yes")
-								<?php $user_photo = $user_photo[$key]->photo;  ?>
+								@if(!empty($user_key[$key]->photo))
+									<?php $user_photo = $user_photo[$key]->photo;  ?>
+								@endif
 							@else
 								<?php $user_photo = $user->photos[0]->photo; ?>
 							@endif
+						
 						@endforeach
 						@if(!empty($user_photo))
-							<span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
+							<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
 						@else 
-							<span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
+							<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
 						@endif
 
 						<p class="left">Name:</p>

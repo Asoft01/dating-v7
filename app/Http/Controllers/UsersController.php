@@ -24,13 +24,16 @@ class UsersController extends Controller
             // echo "<pre>"; print_r($data); die;
             $user = new User();
             $user->name = $data['name'];
+            $user->username = $data['username'];
             $user->email = $data['email'];
             $user->password = bcrypt($data['password']);
             $user->save();
 
-            if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'admin'=> 0])){
+            // if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'admin'=> 0])){
+            if(Auth::attempt(['username' => $data['username'], 'password' => $data['password'], 'admin'=> 0])){
                 // echo "success"; die;
-                Session::put('frontSession', $data['email']);
+                // Session::put('frontSession', $data['email']);
+                Session::put('frontSession', $data['username']);
                 return redirect('/step/2');
             }else{
                 // echo "failed"; die;
@@ -64,10 +67,11 @@ class UsersController extends Controller
                 $userDetail->user_id = Auth::User()['id'];
             }else{
                 $userDetail = UsersDetail::where('user_id', $data['user_id'])->first();
-                // $userDetail->status = 0;
-                $userDetail->status;
+                $userDetail->status = 0;
+                // $userDetail->status;
             }
             // $userDetail->user_id =          Auth::user()['id'];
+            $userDetail->username =         Session::get('frontSession');
             $userDetail->dob =              $data['dob'];
             $userDetail->gender =           $data['gender'];
             $userDetail->height =           $data['height'];
@@ -171,6 +175,7 @@ class UsersController extends Controller
                     $photo = new UsersPhoto();
                     $photo->photo= $fileName;
                     $photo->user_id = $data['user_id'];
+                    $photo->username = Session::get('frontSession');
                     $photo->save();
                 }
                 return redirect('/step/3')->with('flash_message_success', 'Your photos(s) has been uploaded successfullly');
@@ -186,23 +191,35 @@ class UsersController extends Controller
 
     public function deletePhoto($photo){
         // echo $photo; echo "---";
-    //    echo $user_id = Auth::User()->id; die;
-       $user_id = Auth::User()->id; 
-       UsersPhoto::where(['user_id'=> $user_id, 'photo'=> $photo])->delete();
-       // Delete from photos folder with PHP unlink function
-       
-    //    unlink('images/frontend_images/photos/'.$photo); //Unlink function not working
+        //    echo $user_id = Auth::User()->id; die;
+        $user_id = Auth::User()->id; 
+        UsersPhoto::where(['user_id'=> $user_id, 'photo'=> $photo])->delete();
+        // Delete from photos folder with PHP unlink function
+        
+        //    unlink('images/frontend_images/photos/'.$photo); //Unlink function not working
        File::delete('images/frontend_images/photos/'.$photo);
        return redirect()->back()->with('flash_message_success', 'Photo has been deleted successfully');
+    }
+
+    public function defaultPhoto($photo){
+        $user_id = Auth::User()->id; 
+        // Set all Photos as Non Default
+        UsersPhoto::where('user_id', $user_id)->update(['default_photo' => 'No']);
+        
+        // Make selected Photo Default
+        UsersPhoto::where(['user_id'=> $user_id, 'photo'=> $photo])->update(['default_photo' => 'Yes']);
+        
+       return redirect()->back()->with('flash_message_success', 'Default Photo has been set successfully');
     }
 
     public function login(Request $request){
         if($request->isMethod('post')){
             $data = $request->input();
             // echo "<pre>"; print_r($data); die;
-            if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'admin'=> 0])){
+            // if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'admin'=> 0])){
+            if(Auth::attempt(['username' => $data['username'], 'password' => $data['password'], 'admin'=> 0])){
                 // echo "success"; die;
-                Session::put('frontSession', $data['email']);
+                Session::put('frontSession', $data['username']);
                 return redirect('/step/2');
             }else{
                 // echo "failed"; die;
@@ -220,6 +237,16 @@ class UsersController extends Controller
     public function checkEmail(Request $request){
         $data = $request->all();
         $usersCount = User::where('email', $data['email'])->count();
+        if($usersCount > 0){
+            echo 'false';
+        }else{
+            echo 'true';
+        }
+    }
+
+    public function checkUsername(Request $request){
+        $data = $request->all();
+        $usersCount = User::where('username', $data['username'])->count();
         if($usersCount > 0){
             echo 'false';
         }else{
@@ -261,5 +288,12 @@ class UsersController extends Controller
     public function updatePhotoStatus(Request $request){
         $data = $request->all();
         UsersPhoto::where('id', $data['photo_id'])->update(['status' => $data['status']]);
+    }
+
+    public function viewProfile($username){
+        $userDetails = User::with('details')->with('photos')->where('username', $username)->first();
+        $userDetails = json_decode(json_encode($userDetails));
+        // echo "<pre>"; print_r($userDetails); die;
+        return view('users.profile')->with(compact('userDetails'));
     }
 }

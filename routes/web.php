@@ -18,12 +18,14 @@
 Route::get('/', 'IndexController@index');
 
 Route::any('/register', 'UsersController@register');
+Route::get('/profile/{username}', 'UsersController@viewProfile');
 
 Route::group(['middleware'=> ['frontlogin']], function(){
     Route::any('/step/2', 'UsersController@step2');
     Route::any('/step/3', 'UsersController@step3');
     Route::get('/review', 'UsersController@review');    
     Route::get('/delete-photo/{photo}', 'UsersController@deletePhoto');    
+    Route::get('/default-photo/{photo}', 'UsersController@defaultPhoto');    
 });
 
 
@@ -31,6 +33,7 @@ Route::any('/login', 'UsersController@login');
 Route::any('/logout', 'UsersController@logout');
 
 Route::get('/check-email', 'UsersController@checkEmail');
+Route::get('/check-username', 'UsersController@checkUsername');
 
 Route::match(['get', 'post'], '/admin', 'AdminController@login');
 

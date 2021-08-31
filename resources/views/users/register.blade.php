@@ -12,10 +12,13 @@
         <form id="signupForm" action="{{ url('/register') }}" method="post">{{ csrf_field() }}
           <table width="80%">
             <tr>
+              <td align="left" valign="top" class="body"><strong>Username:</strong></td>
+              <td align="left" valign="top"><input name="username" id="username" type="text" size="25" /></td>
+            </tr>
+            <tr>
               <td align="left" valign="top" class="body"><strong>Name:</strong></td>
               <td align="left" valign="top"><input name="name" id="name" type="text" size="25" /></td>
             </tr>
-           
             <tr>
               <td align="left" valign="top" class="body"><strong> Email: </strong></td>
               <td align="left" valign="top"><input name="email" id="user_email" type="text" size="25" /></td>

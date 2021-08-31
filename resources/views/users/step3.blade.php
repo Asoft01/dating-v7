@@ -53,10 +53,26 @@
               @else
                 Inactive
               @endif
+
+              @if($photo->default_photo == "Yes")
+                (Default)
+              @endif
             </p>
             <p>&nbsp;</p>
-            {{-- <a href="/delete-photo/{{ $photo->photo }}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></p> --}}
-            <a rel="{{ $photo->photo }}" href="javascript:" class="deletePhoto"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></p>
+
+            <table cellspacing="2" cellpadding="2">
+              <tr>
+                <td>
+                  {{-- <a href="/delete-photo/{{ $photo->photo }}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></p> --}}
+                  <a rel="{{ $photo->photo }}" href="javascript:" class="deletePhoto"><button type="button" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+                <td>
+                  <a href="/default-photo/{{ $photo->photo }}"><button type="button" class="btn btn-danger btn-sm">Default</button>
+                </td>
+                <tr>
+              </a>
+            </table>
+          </p>
       </div> 
       @endforeach
     </div>

@@ -42,7 +42,8 @@ if (Auth::check()) {
                             <label>Username</label>
                             </div>
                             <div class="search_column_2">
-                            <input type="text" name="email" id="email" placeholder="Username">
+                            {{-- <input type="text" name="email" id="email" placeholder="Username"> --}}
+                            <input type="text" name="username" id="username" placeholder="Username" required>
                             
                             </div>
                         </div>
@@ -51,7 +52,7 @@ if (Auth::check()) {
                             <label>Password</label>
                             </div>
                             <div class="search_column_2">
-                                <input type="password" name="password" id="password" placeholder="Password">
+                                <input type="password" name="password" id="password" placeholder="Password" required>
                             </div>
                         </div>
                             <div class="search_row last">
