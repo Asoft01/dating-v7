@@ -16,46 +16,56 @@
 	  </div>
 	</div>
 	<div class="recent_add_prifile">
-	  <div class="profile_box first"> <span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/pic_1.gif') }}" alt="" /></a></span>
-		<p class="left">Name:</p>
-		<p class="right">Boris Bay</p>
-		<p class="left">Age:</p>
-		<p class="right">25 years</p>
-		<p class="left">Location:</p>
-		<p class="right">Canada</p>
-		<p class="left">Interest:</p>
-		<p class="right">Dating</p>
-		<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> </div>
-	  <div class="profile_box"> <span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/pic_2.gif') }}" alt="" /></a></span>
-		<p class="left">Name:</p>
-		<p class="right">Christina</p>
-		<p class="left">Age:</p>
-		<p class="right">21 years</p>
-		<p class="left">Location:</p>
-		<p class="right">South Korea</p>
-		<p class="left">Interest:</p>
-		<p class="right">Friendship</p>
-		<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> </div>
-	  <div class="profile_box"> <span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/pic_3.gif') }}" alt="" /></a></span>
-		<p class="left">Name:</p>
-		<p class="right">Manish</p>
-		<p class="left">Age:</p>
-		<p class="right">27 years</p>
-		<p class="left">Location:</p>
-		<p class="right">India</p>
-		<p class="left">Interest:</p>
-		<p class="right">Relationship</p>
-		<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> </div>
-	  <div class="profile_box"> <span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/pic_4.gif') }}" alt="" /></a></span>
-		<p class="left">Name:</p>
-		<p class="right">Tina Brown</p>
-		<p class="left">Age:</p>
-		<p class="right">23 years</p>
-		<p class="left">Location:</p>
-		<p class="right">Russia</p>
-		<p class="left">Interest:</p>
-		<p class="right">Flirting</p>
-		<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> </div>
+		{{-- @foreach($recent_users as $user) 
+			@if(!empty($user->details) && $user->details->status == 1 )
+			<div class="profile_box first"> <span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/pic_1.gif') }}" alt="" /></a></span>
+				<p class="left">Name:</p>
+				<p class="right">{{ $user->name }}</p>
+				<p class="left">Location:</p>
+				<p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+				<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+			</div>
+			@endif
+		@endforeach --}}
+		
+		<?php $count = 1; ?>
+		@foreach($recent_users as $user) 
+			@if(!empty($user->details) && $user->details->status == 1 )
+			{{-- {{ $key }} --}}
+			{{-- {{ $count }} --}}
+				@if($count <= 4)
+					<div class="profile_box first"> 
+						@foreach($user->photos as $key => $photo)
+							@if($photo->default_photo == "Yes")
+								<?php $user_photo = $user_photo[$key]->photo;  ?>
+							@else
+								<?php $user_photo = $user->photos[0]->photo; ?>
+							@endif
+						@endforeach
+						@if(!empty($user_photo))
+							<span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
+						@else 
+							<span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
+						@endif
+
+						<p class="left">Name:</p>
+						<p class="right">{{ $user->name }}</p>
+						<p class="left">Age:</p>
+						<p class="right">
+							<?php 
+								$dob = $user->details->dob;
+								echo $diff= date('Y')- date('Y', strtotime($dob))	
+							?>Yrs
+							{{-- {{ $user->details->dob }} --}}
+						</p>
+						<p class="left">Location:</p>
+						<p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+						<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+					</div>
+				@endif
+			@endif
+			<?php $count = $count + 1;  ?>
+		@endforeach
 	</div>
 	<div class="expert_dating_tips">
 	  <h4>expert dating tips</h4>

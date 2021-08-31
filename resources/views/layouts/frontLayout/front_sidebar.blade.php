@@ -64,7 +64,7 @@ if (Auth::check()) {
                             <div class="search_row last">
                                 <div class="search_column_1">&nbsp;</div>
                                 <div class="search_column_2">
-                                   <h3><a href="{{ url('register') }}">New User Register</a></h3>
+                                   <h5><a href="{{ url('register') }}">New User Register</a></h5>
                                 </div>
                             </div>
                             
