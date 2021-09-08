@@ -1,5 +1,6 @@
 <?php 
 use App\User;
+use App\Country;
 // $datingCount = User::datingProfileExists(Auth::User()['id']);
 // // echo $datingCount = User::datingProfileExists(Auth::User()['id']); die;
 // if($datingCount == 1){
@@ -91,58 +92,59 @@ if (Auth::check()) {
     <div class="partner_search">
         <h2>partner search</h2>
         <div class="form_container">
-          <form action="#" method="get">
+          <form action="{{ url('profile/search') }}" method="post">{{ csrf_field() }}
             <fieldset>
             <div class="search_row">
               <div class="search_column_1">
-                <label>I am a</label>
+                <label>Looking For</label>
               </div>
               <div class="search_column_2">
-                <select class="gender">
-                  <option>Male</option>
-                </select>
-                <label class="seeking">Seeking a</label>
-                <select class="gender">
-                  <option>Female</option>
+                <select class="gender" name="gender">
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
                 </select>
               </div>
             </div>
             <div class="search_row">
               <div class="search_column_1">
-                <label>Looking for a</label>
+                <label>Of Age</label>
               </div>
               <div class="search_column_2">
-                <select class="date">
-                  <option>Date</option>
+                <select class="date" name="minAge">
+
+                  <?php 
+                    $minCount = 16;
+                    while($minCount < 99 ){
+                  ?>
+                  <option value="{{ $minCount }}">from {{ $minCount }} </option>
+                  <?php $minCount = $minCount + 1; } ?>
+                </select>
+                
+                <select class="date" name="maxAge">
+                  <?php 
+                    $maxCount = 16; 
+                    while($maxCount < 99 ){ 
+                  ?>
+                  <option value="{{ $maxCount }}" @if($maxCount == "32") selected ="" @endif> to {{ $maxCount }}</option>
+                  <?php $maxCount = $maxCount + 1; } ?>
                 </select>
               </div>
             </div>
             <div class="search_row">
               <div class="search_column_1">
-                <label>I was born</label>
+                <label>Location</label>
               </div>
               <div class="search_column_2">
-                <select class="dob">
-                  <option>Month</option>
-                </select>
-                <select class="dob">
-                  <option>Date</option>
-                </select>
-                <select class="dob">
-                  <option>Year</option>
+                <?php $getCountries = Country::get(); ?>
+                <select class="gender" name="country">
+                  <option value="">Anywhere</option>
+                  @foreach($getCountries as $country)
+                    <option value="{{ $country->name }}" @if($country->name =="India") selected @endif>{{ $country->name }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
-            <div class="search_row">
-              <div class="search_column_1">
-                <label>By Profile ID</label>
-              </div>
-              <div class="search_column_2">
-                <input type="text" name="" value="" />
-                <label class="check">With Photo</label>
-                <input type="checkbox" name="" value="" class="checkbox"/>
-              </div>
-            </div>
+           
             <div class="search_row last">
               <div class="search_column_1">&nbsp;</div>
               <div class="search_column_2">

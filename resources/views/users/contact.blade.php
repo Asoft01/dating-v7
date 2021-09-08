@@ -2,7 +2,7 @@
 @section('content')
 <div id="right_container">
     <div style="padding:20px 15px 30px 15px;">
-      <h1>{{ $userDetails->username }}</h1>
+      <h1>Contact {{ $userDetails->username }}</h1>
         @foreach($userDetails->photos as $key => $photo)
             @if($photo->default_photo == "Yes")
 				@if(!empty($user_key[$key]->photo))
@@ -45,48 +45,14 @@
                 <a href="javascript:void(viewer.show(0))">Photo Album</a>
         </strong>
         <br>
-        <strong style="float: right;">
-          <a href="{{ url('contact/'.$userDetails->username) }}"><i class="fa fa-comment" aria-hidden="true" style="color:red"></i> &nbsp; Contact Profile </a>
-        </strong>
+       <form action="{{ url('contact/'.$userDetails->username) }}" method="post">{{ csrf_field() }}
+           <textarea name="message" id="message" required=""></textarea><br>
+           <input type="submit" name="submit" value="Send Message">
+       </form>
+       <br/>
+       <br/>
         <div class="clear"></div>
       </div>
-      <div class="clear"></div>
-      <br>
-      <br>
-      <br>
-      <div>
-        <h6 class="inner">Contact Details</h6>
-        <div> 
-            <strong>Highest Education: </strong> {{ $userDetails->details->hobbies }}
-            <strong>Hobbies: </strong> {{ $userDetails->details->hobbies }}
-            <strong>Hobbies: </strong> {{ $userDetails->details->hobbies }}
-         </div>
-      </div>
-      <br>
-      <br>
-      <br>
-      <div>
-        <h6 class="inner">Education & Career</h6>
-        <div> 
-            <strong>Highest Education: </strong> {{ $userDetails->details->hobbies }}
-            <strong>Occupation: </strong> {{ $userDetails->details->hobbies }}
-            <strong>Career: </strong> {{ $userDetails->details->hobbies }}
-         </div>
-      </div>
-      <div class="clear"></div>
-      <div class="aboutcolumnzone">
-        <div class="aboutcolumn1">
-          <div>
-            <h5 class="inner">About Myself</h5>
-            <div>{{ $userDetails->details->about_myself }}</div>
-          </div>
-        </div>
-        <div class="aboutcolumn2">
-          <div>
-            <h5 class="inner">About Preferred Partner</h5>
-            <div>{{ $userDetails->details->about_partner }}</div>
-          </div>
-        </div>
     </div>
   </div>
 @endsection

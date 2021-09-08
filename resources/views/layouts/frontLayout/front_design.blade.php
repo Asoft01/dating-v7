@@ -12,6 +12,7 @@
 <link rel="stylesheet" href=" {{ asset('css/backend_css/bootstrap.min.css' )}} " />
 <link rel="stylesheet" href=" {{ asset('css/backend_css/bootstrap-responsive.min.css' )}} " />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
 <script src="{{ asset('js/frontend_js/jquery.js') }}"></script>
 <script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>
 <script src="{{ asset('js/frontend_js/additional-methods.js') }}"></script>

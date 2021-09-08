@@ -25,7 +25,8 @@ Route::group(['middleware'=> ['frontlogin']], function(){
     Route::any('/step/3', 'UsersController@step3');
     Route::get('/review', 'UsersController@review');    
     Route::get('/delete-photo/{photo}', 'UsersController@deletePhoto');    
-    Route::get('/default-photo/{photo}', 'UsersController@defaultPhoto');    
+    Route::get('/default-photo/{photo}', 'UsersController@defaultPhoto'); 
+    Route::match(['get', 'post'], '/contact/{username}', 'UsersController@contactProfile');   
 });
 
 
@@ -39,6 +40,8 @@ Route::match(['get', 'post'], '/admin', 'AdminController@login');
 
 // Route::get('/logout', 'AdminController@logout');
 Route::get('/admin/logout', 'AdminController@logout');
+Route::any('/profile/search', 'UsersController@searchProfile');
+Route::any('/profile/{username}', 'UsersController@viewProfile');
 
 
 Route::group(['middleware' => ['adminlogin']], function(){

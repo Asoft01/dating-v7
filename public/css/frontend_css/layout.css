@@ -99,7 +99,7 @@ body{font:10px/16px "Tahoma", Arial, Helvetica, sans-serif; background:#722622 u
 .partner_search .form_container{float:left; width:270px; background:#d4a057; border-bottom:4px solid #c98c44; border-right:4px solid #ca8d46; padding:16px 0 0 0}
 .form_container .search_row{float:left; width:270px; padding-bottom:8px}
 .form_container .search_row.last{float:left; width:270px; padding:5px 0 0 0}
-.form_container .search_row .search_column_1{float:left; width:86px; padding:0 0 0 0}
+.form_container .search_row .search_column_1{float:left; width:86px; padding:0 0 0 0 }
 .form_container .search_row .search_column_2{float:left; width:184px}
 
 .form_container form{float:left; width:270px;}
@@ -111,8 +111,8 @@ body{font:10px/16px "Tahoma", Arial, Helvetica, sans-serif; background:#722622 u
 .form_container input.checkbox{float:left; width:auto; border:none; height:15px; padding:0; margin:2px 0 0 0}
 .form_container input.search_btn{float:left; width:auto; padding:0; margin:0 0 0 0}
 .form_container select{float:left; width:58px; height:19px; font-size:9px}
-.form_container select.gender{float:left; width:58px;}
-.form_container select.date{float:left; width:171px;}
+.form_container select.gender{float:left; width:82px; margin-top: 5px;}
+.form_container select.date{float:left; width:82px; margin-top: 5px;}
 .form_container select.dob{float:left; width:55px; font-size:10px; margin:0 3px 0 0}
 
 

@@ -220,8 +220,17 @@ class UsersController extends Controller
             // if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'admin'=> 0])){
             if(Auth::attempt(['username' => $data['username'], 'password' => $data['password'], 'admin'=> 0])){
                 // echo "success"; die;
-                Session::put('frontSession', $data['username']);
-                return redirect('/step/2');
+
+                if(preg_match("/contact/i", Session::get('current_url'))){
+                    // echo "A match was found ";
+                    Session::put('frontSession', $data['username']);
+                    return redirect(Session::get('current_url'));
+                    // return redirect('/contact/'.$data['username']);
+                }else{
+                    Session::put('frontSession', $data['username']);
+                    return redirect('/step/2');
+                }
+                
             }else{
                 // echo "failed"; die;
                 return redirect::back()->with('flash_message_error', 'Invalid Username or Password');
@@ -232,6 +241,7 @@ class UsersController extends Controller
     public function logout(){
         Auth::logout();
         Session::forget('frontSession');
+        Session::forget('current_url');
         return redirect()->action('IndexController@index');
     }
 
@@ -292,9 +302,90 @@ class UsersController extends Controller
     }
 
     public function viewProfile($username){
-        $userDetails = User::with('details')->with('photos')->where('username', $username)->first();
-        $userDetails = json_decode(json_encode($userDetails));
+        $userCount =  User::where('username', $username)->count();
+        if($userCount > 0){
+            $userDetails = User::with('details')->with('photos')->where('username', $username)->first();
+            $userDetails = json_decode(json_encode($userDetails));
+            // echo "<pre>"; print_r($userDetails); die;
+        }else{
+            abort(404);
+        }
+        // $userDetails = User::with('details')->with('photos')->where('username', $username)->first();
+        // $userDetails = json_decode(json_encode($userDetails));
         // echo "<pre>"; print_r($userDetails); die;
         return view('users.profile')->with(compact('userDetails'));
+    }
+
+    public function contactProfile($username, Request $request){
+        $userCount =  User::where('username', $username)->count();
+        if($userCount > 0){
+            $userDetails = User::with('details')->with('photos')->where('username', $username)->first();
+            $userDetails = json_decode(json_encode($userDetails));
+            // echo "<pre>"; print_r($userDetails); die;
+
+            if($request->isMethod('post')){
+                $data = $request->all();
+                // echo "<pre>"; print_r($data); die;
+                // echo $username; die;
+                // echo $userDetails->id; die;
+                // echo Auth::user()->username;
+                // echo  
+            }
+        }else{
+            abort(404);
+        }
+        return view('users.contact')->with(compact('userDetails'));
+    }
+
+    public function searchProfile(Request $request){
+        // echo "test"; die;
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+            // if(!empty($data['country'])){
+            //     // $data['country'] = "";
+            //     $searched_users = User::with('details')->with('photos')
+            //     ->join('users_details', 'users_details.user_id', '=', 'users.id')
+            //     ->where('users_details.gender', $data['gender'])
+            //     ->where('users_details.country', $data['country'])
+            //     ->orderBy('users.id', 'Desc')->get();
+            // }else{
+            //     $searched_users = User::with('details')->with('photos')
+            //     ->join('users_details', 'users_details.user_id', '=', 'users.id')
+            //     ->where('users_details.gender', $data['gender'])
+            //     ->orderBy('users.id', 'Desc')->get();
+            // }
+            // $searched_users = User::with('details')->with('photos')
+
+
+            ////////////////////////// Second Method ///////////// 
+            
+            // $searched_users = User::join('users_details', 'users_details.user_id', '=', 'users.id')
+            //                         ->with('photos')
+            //                         // ->with('details')
+            //                         // ->join('users_details', 'users_details.user_id', '=', 'users.id')
+            //                         ->where('users_details.gender', $data['gender'])
+            //                         ->where('users_details.country', $data['country'])
+            //                         ->orderBy('users.id', 'Desc')->get();
+            // $searched_users = json_decode(json_encode($searched_users));
+            
+
+            ///////////////////// Last And Effective Method //////////////////////////
+             $searched_users = User::with('details')->with('photos')
+                ->join('users_details', 'users_details.user_id','=', 'users.id')
+                ->where('users_details.gender', $data['gender'])
+                ->where('users.username', '!=', 'admin');
+            if(!empty($data['country'])){
+                $searched_users = $searched_users->where('users_details.country', $data['country']);
+            }
+
+            $searched_users = $searched_users->orderBy('users.id', 'Desc')->get();
+            $searched_users = json_decode(json_encode($searched_users));
+            
+            $minAge = $data['minAge'];
+            $maxAge = $data['maxAge'];
+            // echo "<pre>"; print_r($searched_users); die;
+            return view('users.search')->with(compact('searched_users', 'minAge', 'maxAge'));
+        }
     }
 }
