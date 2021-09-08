@@ -13,6 +13,8 @@
 <link rel="stylesheet" href=" {{ asset('css/backend_css/bootstrap-responsive.min.css' )}} " />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css" />
+
 <script src="{{ asset('js/frontend_js/jquery.js') }}"></script>
 <script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>
 <script src="{{ asset('js/frontend_js/additional-methods.js') }}"></script>
@@ -21,6 +23,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
 {{-- <script type="text/javascript" src="https://slideshow.triptracker.net/slide.js"></script> --}}
 <script type="text/javascript" src="{{ asset('js/frontend_js/slide.js') }}"></script>
+<script src="//cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(function() {
       $( "#dob" ).datepicker({ 
@@ -29,7 +33,8 @@
           changeYear: true,
           maxDate: '0',
           yearRange: '1950:2003'
-         });
+      });
+      // $('#responses').DataTable();
     });
     </script>
 </head>

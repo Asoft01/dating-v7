@@ -8,6 +8,7 @@ use App\Language;
 use App\User;
 use App\UsersDetail;
 use App\UsersPhoto;
+use App\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use Illuminate\Support\Facades\Auth;
@@ -326,10 +327,28 @@ class UsersController extends Controller
             if($request->isMethod('post')){
                 $data = $request->all();
                 // echo "<pre>"; print_r($data); die;
+                // echo "<br>"; 
                 // echo $username; die;
                 // echo $userDetails->id; die;
-                // echo Auth::user()->username;
-                // echo  
+
+                // echo "Sender"; 
+                // echo Auth::user()->username; echo "---";
+                // echo Auth::user()->id;
+
+                // echo "<br>";
+                // // Receiver Username/id;
+                // echo "Receiver";
+                // echo $username; echo "---"; 
+                // echo $userDetails->id;
+
+                // Add Response in response table 
+                $response = new Response;
+                $response->sender_id = Auth::user()->id;
+                $response->receiver_id = $userDetails->id;
+                $response->message = $data['message'];
+                $response->save();
+                // echo "done"; die;
+                return redirect()->back()->with('flash_message_success', 'Your response has been sent to this dating profile');
             }
         }else{
             abort(404);
@@ -387,5 +406,21 @@ class UsersController extends Controller
             // echo "<pre>"; print_r($searched_users); die;
             return view('users.search')->with(compact('searched_users', 'minAge', 'maxAge'));
         }
+    }
+
+    public function responses(){
+        $receiver_id= Auth::user()->id;
+        $responses = Response::where('receiver_id', $receiver_id)->orderBy('id', 'Desc')->get();
+        // $responses= json_decode(json_encode($responses));
+        // echo "<pre>"; print_r($responses); die;
+        return view('users.responses')->with(compact('responses'));
+    }
+
+    public function sentMessages(){
+        $sender_id = Auth::user()->id;
+        $sent_msg = Response::where('sender_id', $sender_id)->orderBy('id', 'Desc')->get();
+        // $sent_messages = json_decode(json_encode($sent_messages));
+        // echo "<pre>"; print_r($sent_messages); die;
+        return view('users.sent_messages')->with(compact('sent_msg'));
     }
 }

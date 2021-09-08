@@ -135,5 +135,8 @@ $().ready(function() {
         }
         return true;
    });
+
+    // Responses datatable
+    $('#responses').DataTable();
    
 });

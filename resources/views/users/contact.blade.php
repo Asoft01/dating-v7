@@ -45,6 +45,13 @@
                 <a href="javascript:void(viewer.show(0))">Photo Album</a>
         </strong>
         <br>
+
+        @if(Session::has('flash_message_success')) 
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div>
+        @endif 
        <form action="{{ url('contact/'.$userDetails->username) }}" method="post">{{ csrf_field() }}
            <textarea name="message" id="message" required=""></textarea><br>
            <input type="submit" name="submit" value="Send Message">

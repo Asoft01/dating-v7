@@ -50,5 +50,15 @@ class User extends Authenticatable
         return $datingProfile; 
     }
 
+    public static function getName($user_id){
+        $getName = User::select('name')->where('id', $user_id)->first();
+        return $getName->name;
+    }
+
+    public static function getCity($user_id){
+        $getCity = UsersDetail::select('city')->where('user_id', $user_id)->first();
+        return $getCity->city;
+    }
+
 
 }

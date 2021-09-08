@@ -84,6 +84,8 @@ if (Auth::check()) {
                         @if($datingCount == 1)
                             <p class="link"><a href="{{ url('/step/3') }}"> My Photos </a> </p>
                         @endif
+                        <p class="link"><a href="{{ url('responses') }}"> My Responses </a> </p>
+                        <p class="link"><a href="{{ url('sent-messages') }}"> Sent Message </a> </p>
                         <p class="link"><a href="{{ url('/logout') }}">Logout</a></p>
                     </div>
                </div>
