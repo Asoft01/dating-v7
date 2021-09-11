@@ -24,6 +24,8 @@
 {{-- <script type="text/javascript" src="https://slideshow.triptracker.net/slide.js"></script> --}}
 <script type="text/javascript" src="{{ asset('js/frontend_js/slide.js') }}"></script>
 <script src="//cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('js/backend_js/bootstrap.min.js') }}"></script> 
+<script src="{{ asset('js/backend_js/matrix.popover.js') }}"></script>
 
 <script>
     $(function() {
