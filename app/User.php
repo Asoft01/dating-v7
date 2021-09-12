@@ -60,5 +60,11 @@ class User extends Authenticatable
         return $getCity->city;
     }
 
+    public static function getUsername($user_id){
+        $getUsername = User::select('username')->where('id', $user_id)->first();
+        return $getUsername->username;
+
+    }
+
 
 }

@@ -416,6 +416,12 @@ class UsersController extends Controller
         return view('users.responses')->with(compact('responses'));
     }
 
+    public function deleteResponse($id){
+        // echo $id; die;
+        Response::where('id',$id)->delete();
+        return redirect()->back()->with('flash_message_success', 'Response has been deleted successfully');
+    }
+
     public function sentMessages(){
         $sender_id = Auth::user()->id;
         $sent_msg = Response::where('sender_id', $sender_id)->orderBy('id', 'Desc')->get();

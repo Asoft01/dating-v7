@@ -52,8 +52,21 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div>
         @endif 
+        <?php
+            if(!empty($_GET['encoded_message'])){
+                echo $decoded_message = decrypt($_GET['encoded_message']);
+            }
+        ?>
        <form action="{{ url('contact/'.$userDetails->username) }}" method="post">{{ csrf_field() }}
-           <textarea name="message" id="message" required=""></textarea><br>
+           <textarea style="width: 330px; height:130px" name="message" id="message" required="">
+                <?php 
+                    if(!empty($decoded_message)){
+                        echo "\n\n\n----------- $userDetails->username wrote:\n";
+                        echo $decoded_message; 
+                    }
+                ?>
+            </textarea>
+            <br>
            <input type="submit" name="submit" value="Send Message">
        </form>
        <br/>

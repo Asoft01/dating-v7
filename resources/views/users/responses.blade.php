@@ -4,6 +4,18 @@
 <div id="right_container">
     <div style="">
       <h1>Responses </h1>
+      @if(Session::has('flash_message_error')) 
+            <div class="alert alert-error alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_error') !!}</strong>
+            </div>
+        @endif  
+        @if(Session::has('flash_message_success')) 
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div>
+        @endif 
         <table id="responses" class="display" style="width:98%">
             <thead>
                 <tr>
@@ -19,6 +31,9 @@
                 <?php 
                     $sender_name = User::getName($response->sender_id);
                     $sender_city = User::getCity($response->sender_id);
+                    $sender_username = User::getUsername($response->sender_id);
+                    // echo $encoded_message = encrypt($response->message); die
+                    $encoded_message = encrypt($response->message);
                 ?>
                     <tr align="center">
                         <td>{{ $sender_name }}</td>
@@ -33,12 +48,12 @@
                                     <h3>Response Details</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <p>{{ $response->message }} </p>
+                                    <p><?php echo nl2br($response->message); ?></p>
                                 </div>
                             </div>
                             
-                            <i class="fa fa-reply" aria-hidden="true"></i>&nbsp;
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;
+                            <a href="{{ url('contact/'.$sender_username.'?encoded_message='.$encoded_message) }}" target="_blank"><i class="fa fa-reply" aria-hidden="true"></i></a>&nbsp;
+                            <a rel="{{ $response->id }}" rel1="delete-response" class="deleteAction" href="javascript:"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;</a>
                         </td>
                     </tr>
                 @endforeach
