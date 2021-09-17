@@ -1,4 +1,3 @@
-
 $().ready(function() {
     // validate signup form on keyup and submit
     $("#signupForm").validate({
@@ -165,5 +164,30 @@ $().ready(function() {
 
     // Responses datatable
     $('#responses').DataTable();
+
+    // Response Seen/Unseen Script
+
+    // $(".updateResp").click(function(){
+    //     alert("Hello");
+    // })
+
+    $(".updateResponse").click(function(){
+        // alert('test'); return false;
+        var response_id = $(this).attr('rel');
+        // alert(response_id);
+        $.ajax({
+            type: 'post',
+            url: '/update-response',
+            data: {response_id : response_id},
+            success: function(resp){
+                // alert(resp);
+                $(".rel1-"+response_id).addClass('seenResponse');
+                $(".newResponsesCount").html(resp);
+            }, error: function(){
+                alert("error");
+            }
+        })
+    });
+
    
 });

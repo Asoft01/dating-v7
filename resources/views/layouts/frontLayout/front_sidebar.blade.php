@@ -1,6 +1,7 @@
 <?php 
 use App\User;
 use App\Country;
+use App\Response;
 // $datingCount = User::datingProfileExists(Auth::User()['id']);
 // // echo $datingCount = User::datingProfileExists(Auth::User()['id']); die;
 // if($datingCount == 1){
@@ -84,7 +85,7 @@ if (Auth::check()) {
                         @if($datingCount == 1)
                             <p class="link"><a href="{{ url('/step/3') }}"> My Photos </a> </p>
                         @endif
-                        <p class="link"><a href="{{ url('responses') }}"> My Responses </a> </p>
+                        <p class="link"><a href="{{ url('responses') }}"> My Responses (<span class="newResponsesCount">{{ Response::newResponseCount() }}</span>)</a> </p>
                         <p class="link"><a href="{{ url('sent-messages') }}"> Sent Message </a> </p>
                         <p class="link"><a href="{{ url('/logout') }}">Logout</a></p>
                     </div>

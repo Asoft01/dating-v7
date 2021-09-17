@@ -25,6 +25,7 @@ Route::group(['middleware'=> ['frontlogin']], function(){
     Route::any('/step/3', 'UsersController@step3');
     Route::get('/review', 'UsersController@review');    
     Route::get('/responses', 'UsersController@responses');  
+    Route::post('/update-response', 'UsersController@updateResponse');  
     Route::get('/delete-response/{id}', 'UsersController@deleteResponse');  
     Route::get('/sent-messages', 'UsersController@sentMessages');    
     Route::get('/delete-photo/{photo}', 'UsersController@deletePhoto');    

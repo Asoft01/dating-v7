@@ -416,6 +416,15 @@ class UsersController extends Controller
         return view('users.responses')->with(compact('responses'));
     }
 
+    public function updateResponse(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+            Response::where('id', $data['response_id'])->update(['seen'=> 1]);
+            echo Response::newResponseCount();
+        }
+    }
+
     public function deleteResponse($id){
         // echo $id; die;
         Response::where('id',$id)->delete();

@@ -2,7 +2,7 @@
     <p>1498 <span>members online now,</span> 210 <span>new profiles this week,</span> 46,786 <span>total members till today !</span></p>
     <div id="menu">
       <ul>
-        <li class="first"><a class="current" href="#">home</a></li>
+        <li class="first"><a class="current" href="{{ url('/') }}">home</a></li>
         <li><a href="about_us.html">about us</a></li>
         <li><a href="privacy.html">privacy</a></li>
         <li><a href="projects.html">projects</a></li>

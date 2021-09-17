@@ -1,9 +1,17 @@
-<?php use App\User; ?>
+<?php 
+use App\User;
+use App\Response;
+?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
+<style>
+.seenResponse{
+        font-weight: normal !important;
+    }
+</style>
 <div id="right_container">
     <div style="">
-      <h1>Responses </h1>
+    <h1>Responses (<span class="newResponsesCount">{{ Response::newResponseCount() }}</span>) </h1>
       @if(Session::has('flash_message_error')) 
             <div class="alert alert-error alert-block">
                 <button type="button" class="close" data-dismiss="alert">x</button>
@@ -16,6 +24,8 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div>
         @endif 
+        
+        {{-- <a href="" value="submit" class="updateResp">Hello</a> --}}
         <table id="responses" class="display" style="width:98%">
             <thead>
                 <tr>
@@ -36,12 +46,22 @@
                     $encoded_message = encrypt($response->message);
                 ?>
                     <tr align="center">
-                        <td>{{ $sender_name }}</td>
-                        <td>{{ $sender_city }}</td>
-                        <td>{{ substr($response->message, 0, 15) }}<a title="View Details" href="#responseDetails{{ $response->id }}" data-toggle="modal">...</a> </td>
-                        <td>{{ $response->created_at }}</td>
+                        @if ($response->seen == 0)
+                            <?php $bold_response = 'style=font-weight:bold;'; ?>
+                        @else 
+                            <?php $bold_response= 'style=font-weight:normal;'; ?>
+                        @endif
+                        {{-- <td @if($response->seen== 0) style="font-weight:bold;" @endif>{{ $sender_name }}</td>
+                        <td @if($response->seen== 0) style="font-weight:bold;" @endif>{{ $sender_city }}</td>
+                        <td @if($response->seen== 0) style="font-weight:bold;" @endif>{{ substr($response->message, 0, 15) }}<a title="View Details" href="#responseDetails{{ $response->id }}" data-toggle="modal">...</a> </td> --}}
+
+                        <td class="rel1-{{ $response->id }}" {{ $bold_response }}>{{ $sender_name }}</td>
+                        <td  class="rel1-{{ $response->id }}" {{ $bold_response }}>{{ $sender_city }}</td>
+                        <td  class="rel1-{{ $response->id }}" {{ $bold_response }}>{{ substr($response->message, 0, 15) }}<a title="View Details" href="#responseDetails{{ $response->id }}" data-toggle="modal">...</a> </td>
+                        {{-- <td @if($response->seen== 0) style="font-weight:bold;" @endif>{{ $response->created_at }}</td> --}}
+                        <td class="rel1-{{ $response->id }}" {{ $bold_response }}>{{ $response->created_at }}</td>
                         <td>
-                            <a title="View Details" href="#responseDetails{{ $response->id }}" data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>&nbsp;
+                            <a class="updateResponse" rel="{{ $response->id }}" title="View Details" href="#responseDetails{{ $response->id }}" data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>&nbsp;
                             <div id="responseDetails{{ $response->id }}" class="modal hide">
                                 <div class="modal-header">
                                     <button data-dismiss="modal" class="close" type="button">x</button>

@@ -54,7 +54,8 @@
         @endif 
         <?php
             if(!empty($_GET['encoded_message'])){
-                echo $decoded_message = decrypt($_GET['encoded_message']);
+                // echo $decoded_message = decrypt($_GET['encoded_message']);
+                 $decoded_message = decrypt($_GET['encoded_message']);
             }
         ?>
        <form action="{{ url('contact/'.$userDetails->username) }}" method="post">{{ csrf_field() }}
