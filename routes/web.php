@@ -25,12 +25,19 @@ Route::group(['middleware'=> ['frontlogin']], function(){
     Route::any('/step/3', 'UsersController@step3');
     Route::get('/review', 'UsersController@review');    
     Route::get('/responses', 'UsersController@responses');  
+    Route::get('/friends-requests', 'UsersController@friendsRequests');  
+    Route::get('/friends', 'UsersController@friends');  
+    Route::get('/accept-friend-request/{id}', 'UsersController@acceptFriendRequest'); 
+    Route::get('/confirm-friend-request/{id}', 'UsersController@confirmFriendRequest');
+    Route::get('/reject-friend-request/{id}', 'UsersController@rejectFriendRequest');  
     Route::post('/update-response', 'UsersController@updateResponse');  
     Route::get('/delete-response/{id}', 'UsersController@deleteResponse');  
     Route::get('/sent-messages', 'UsersController@sentMessages');    
     Route::get('/delete-photo/{photo}', 'UsersController@deletePhoto');    
     Route::get('/default-photo/{photo}', 'UsersController@defaultPhoto'); 
     Route::match(['get', 'post'], '/contact/{username}', 'UsersController@contactProfile');   
+    Route::match(['get', 'post'], '/add-friend/{username}', 'UsersController@addFriend');   
+    Route::match(['get', 'post'], '/remove-friend/{username}', 'UsersController@removeFriend');   
 });
 
 

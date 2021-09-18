@@ -86,6 +86,8 @@ if (Auth::check()) {
                             <p class="link"><a href="{{ url('/step/3') }}"> My Photos </a> </p>
                         @endif
                         <p class="link"><a href="{{ url('responses') }}"> My Responses (<span class="newResponsesCount">{{ Response::newResponseCount() }}</span>)</a> </p>
+                        <p class="link"><a href="{{ url('/friends-requests') }}"> Friends Requests </a> </p>
+                        <p class="link"><a href="{{ url('/friends') }}"> Friends </a> </p>
                         <p class="link"><a href="{{ url('sent-messages') }}"> Sent Message </a> </p>
                         <p class="link"><a href="{{ url('/logout') }}">Logout</a></p>
                     </div>

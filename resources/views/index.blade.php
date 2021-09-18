@@ -34,40 +34,92 @@
 			{{-- {{ $key }} --}}
 			{{-- {{ $count }} --}}
 				@if($count <= 4)
-					<div class="profile_box first"> 
-						@foreach($user->photos as $key => $photo)
-							@if($photo->default_photo == "Yes")
-								@if(!empty($user_key[$key]->photo))
-									<?php $user_photo = $user_photo[$key]->photo;  ?>
+					@if(Auth::check())
+						@if(Auth::check() && Auth::User()->username != $user->details->username)
+							<div class="profile_box first"> 
+								<?php
+									// if(Auth::check()){
+									// 	// echo Auth::user()->username;
+									// 	// echo "---";
+									// 	echo $user->details->username;
+									// }
+								?>
+								
+								@foreach($user->photos as $key => $photo)
+									@if($photo->default_photo == "Yes")
+										@if(!empty($user_key[$key]->photo))
+											<?php $user_photo = $user_photo[$key]->photo;  ?>
+										@endif
+									@else
+										<?php $user_photo = $user->photos[0]->photo; ?>
+									@endif
+								
+								@endforeach
+								@if(!empty($user_photo))
+									<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
+								@else 
+									<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
 								@endif
-							@else
-								<?php $user_photo = $user->photos[0]->photo; ?>
-							@endif
-						
-						@endforeach
-						@if(!empty($user_photo))
-							<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
-						@else 
-							<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
-						@endif
 
-						<p class="left">Name:</p>
-						<p class="right">{{ $user->name }}</p>
-						<p class="left">Age:</p>
-						<p class="right">
-							<?php 
-								$dob = $user->details->dob;
-								echo $diff= date('Y')- date('Y', strtotime($dob))	
-							?>Yrs
-							{{-- {{ $user->details->dob }} --}}
-						</p>
-						<p class="left">Location:</p>
-						<p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
-						<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
-					</div>
+								<p class="left">Name:</p>
+								<p class="right">{{ $user->name }}</p>
+								<p class="left">Age:</p>
+								<p class="right">
+									<?php 
+										$dob = $user->details->dob;
+										echo $diff= date('Y')- date('Y', strtotime($dob))	
+									?>Yrs
+									{{-- {{ $user->details->dob }} --}}
+								</p>
+								<p class="left">Location:</p>
+								<p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+								<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+							</div>
+							@endif
+						@else
+							<div class="profile_box first"> 
+								<?php
+									// if(Auth::check()){
+									// 	// echo Auth::user()->username;
+									// 	// echo "---";
+									// 	echo $user->details->username;
+									// }
+								?>
+								
+								@foreach($user->photos as $key => $photo)
+									@if($photo->default_photo == "Yes")
+										@if(!empty($user_key[$key]->photo))
+											<?php $user_photo = $user_photo[$key]->photo;  ?>
+										@endif
+									@else
+										<?php $user_photo = $user->photos[0]->photo; ?>
+									@endif
+								
+								@endforeach
+								@if(!empty($user_photo))
+									<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
+								@else 
+									<span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
+								@endif
+
+								<p class="left">Name:</p>
+								<p class="right">{{ $user->name }}</p>
+								<p class="left">Age:</p>
+								<p class="right">
+									<?php 
+										$dob = $user->details->dob;
+										echo $diff= date('Y')- date('Y', strtotime($dob))	
+									?>Yrs
+									{{-- {{ $user->details->dob }} --}}
+								</p>
+								<p class="left">Location:</p>
+								<p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+								<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+							</div>
+						@endif
+					<?php $count = $count + 1;  ?>
 				@endif
 			@endif
-			<?php $count = $count + 1;  ?>
 		@endforeach
 	</div>
 	<div class="expert_dating_tips">

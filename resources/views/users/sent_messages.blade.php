@@ -11,6 +11,7 @@
                     <th>Location</th>
                     <th>Response</th>
                     <th>Date/Time</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,10 +21,32 @@
                     $receiver_city = User::getCity($msg->receiver_id);
                 ?>
                     <tr align="center">
-                        <td>{{ $receiver_name }}</td>
-                        <td>{{ $receiver_city }}</td>
-                        <td>{{ $msg->message }}</td>
-                        <td>{{ $msg->created_at }}</td>
+                        @if ($msg->seen == 0)
+                            <?php $bold_msg = 'style=font-weight:bold;'; ?>
+                        @else 
+                            <?php $bold_msg= 'style=font-weight:normal;'; ?>
+                        @endif
+                        <td {{ $bold_msg }}>{{ $receiver_name }}</td>
+                        <td {{ $bold_msg }}>{{ $receiver_city }}</td>
+                        <td {{ $bold_msg }}>{{ substr($msg->message, 0,15) }}<a title="View Details" href="#messageDetails{{ $msg->id }}" data-toggle="modal">...</a> </td>
+                        <td {{ $bold_msg }}>{{ $msg->created_at }}</td>
+                        <td {{ $bold_msg }}>
+                            <a class="updateResponse" rel="{{ $msg->id }}" title="View Details" href="#messageDetails{{ $msg->id }}" data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>&nbsp;
+                            <div id="messageDetails{{ $msg->id }}" class="modal hide">
+                                <div class="modal-header">
+                                    <button data-dismiss="modal" class="close" type="button">x</button>
+                                    <h3>Message Details</h3>
+                                    @if($msg->seen==1)
+                                        (Seen)
+                                    @else
+                                        (Unseen)
+                                    @endif
+                                </div>
+                                <div class="modal-body">
+                                    <p><?php echo nl2br($msg->message); ?></p>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
