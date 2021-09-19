@@ -43,3 +43,6 @@ Section #29 fixed captcha issues
 Coming Back to Section 32
 
 https://slideshow.triptracker.net/
+
+Chat Box Integration
+https://www.cbox.ws/admin?home

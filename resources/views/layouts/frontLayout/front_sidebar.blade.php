@@ -163,20 +163,9 @@ if (Auth::check()) {
     <div class="dating_news">
       <h2>dating news </h2>
       <div class="news_detail">
-        <p class="date">18th January, ‘09</p>
-        <p class="detail">Nunc viverra. Aliquam suscipit egestas turpis. Aenean mollis est. Sed feugiat, nulla sit amet dictum aliquam, massa leo elementum risus, sed gravida felis erat ut libero. Integer sem nisi, adipiscing non, sagittis eget, hendrerit non, nisi. Aliquam ante.</p>
-        <p class="know_more"><a href="#">know more...</a></p>
+        <iframe src="https://www5.cbox.ws/box/?boxid=928573&boxtag=VbRwrn" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
       </div>
-      <div class="news_detail">
-        <p class="date">20th January, ‘09</p>
-        <p class="detail">Fusce tristique, nisl vel gravida venenatis, risus magna eleifend pede, id bibendum mauris metus et erat. Morbi in leo. Quisque sollicitudin sagittis est. Aliquam non nulla. Suspendisse et nulla nec augue mattis venenatis. Lorem ipsum dolor sit amet.</p>
-        <p class="know_more"><a href="#">know more...</a></p>
-      </div>
-      <div class="news_detail">
-        <p class="date">25th January, ‘09</p>
-        <p class="detail">Fusce tristique, nisl vel gravida venenatis, risus magna eleifend pede, id bibendum mauris metus et erat. Morbi in leo. Quisque sollicitudin sagittis est. Aliquam non nulla. Suspendisse et nulla nec augue mattis venenatis. Lorem ipsum dolor sit amet.</p>
-        <p class="know_more"><a href="#">know more...</a></p>
-      </div>
+      
     </div>
     <div class="dont_stay"> <img src="{{ asset('images/frontend_images/dont_stay_alone.gif') }}" alt="" /></div>
   </div>
