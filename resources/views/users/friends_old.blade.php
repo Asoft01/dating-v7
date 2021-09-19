@@ -36,19 +36,28 @@ use App\Response;
                 </tr>
             </thead>
             <tbody>
-                
-                @foreach($friendsList as $request)
-                    <?php
-                        $sender_name = User::getName($request->id);
-                        $sender_city = User::getCity($request->id);
-                        $sender_username = User::getUsername($request->id);
-                   ?>
+                @foreach($friends as $request)
+                <?php 
+                    if(Auth::user()->id != $request->user_id){
+                        $sender_name = User::getName($request->user_id);
+                        $sender_city = User::getCity($request->user_id);
+                        $sender_username = User::getUsername($request->user_id);
+                    }else{
+                        $sender_name = User::getName($request->friend_id);
+                        $sender_city = User::getCity($request->friend_id);
+                        $sender_username = User::getUsername($request->friend_id);
+                    }
+                ?>
                     <tr align="center">
                         <td><a target="_blank" href="{{ url('profile/'.$sender_username) }}">{{ $sender_name }}</a></td>
                         <td>{{ $sender_city }}</td>
                         <td>{{ $request->created_at }}</td>
                         <td>
-                            <a href="{{ url('reject-friend-request/'.$request->id) }}"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                            @if(Auth::user()->id != $request->user_id)
+                                <a href="{{ url('reject-friend-request/'.$request->user_id) }}"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                            @else 
+                                <a href="{{ url('reject-friend-request/'.$request->friend_id) }}"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

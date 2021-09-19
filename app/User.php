@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\UsersDetail;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -69,6 +70,9 @@ class User extends Authenticatable
     public static function getUserId($username){
         $getUserId = User::select('id')->where('username', $username)->first();
         return $getUserId->id;
+    }
 
+    public static function isOnline($user_id){
+        return Cache::has('user-is-online-'.$user_id);
     }
 }

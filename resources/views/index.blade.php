@@ -1,3 +1,6 @@
+<?php
+use App\User;
+?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <div id="right_container">
@@ -114,6 +117,16 @@
 								</p>
 								<p class="left">Location:</p>
 								<p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+								<p>
+									<?php 
+										$isOnline = User::isOnline($user->id); 
+										if($isOnline){
+											echo "<font color ='green'><strong>Online</strong></font>";
+										}else{
+											echo "<font color ='red'>Offline </font>";
+										}
+									?>
+								</p>
 								<a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
 							</div>
 						@endif

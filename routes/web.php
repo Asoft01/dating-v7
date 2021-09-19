@@ -37,6 +37,7 @@ Route::group(['middleware'=> ['frontlogin']], function(){
     Route::get('/default-photo/{photo}', 'UsersController@defaultPhoto'); 
     Route::match(['get', 'post'], '/contact/{username}', 'UsersController@contactProfile');   
     Route::match(['get', 'post'], '/add-friend/{username}', 'UsersController@addFriend');   
+    Route::match(['get', 'post'], '/add-new-friend/{username}', 'UsersController@addNewFriend');   
     Route::match(['get', 'post'], '/remove-friend/{username}', 'UsersController@removeFriend');   
 });
 
