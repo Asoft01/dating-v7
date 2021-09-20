@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use App\Favorite;
 use App\Friend;
 use App\Hobby;
 use App\Language;
@@ -234,6 +235,11 @@ class UsersController extends Controller
                     // echo "test"; die;
                     Session::put('frontSession', $data['username']);
                     return redirect(Session::get('current_url'));
+                }else if(preg_match("/add-new-favorite/i", Session::get('current_url'))){
+                    // echo Session::get('current_url');
+                    // echo "test"; die;
+                    Session::put('frontSession', $data['username']);
+                    return redirect(Session::get('current_url'));
                 }else{
                     Session::put('frontSession', $data['username']);
                     return redirect('/step/2');
@@ -350,6 +356,23 @@ class UsersController extends Controller
             }else{
                 $friendrequest = "";
             }
+
+            if(Auth::check()){
+                $user_id = Auth()->user()->id;
+                $favorite_id = User::getUserId($username);
+                // echo "test"; die;
+    
+                // Check if already Favourite
+                $favoriteCount = Favorite::where(['favorite_id' => $favorite_id, 'user_id' => $user_id])->count();
+                if($favoriteCount > 0){
+                    $favorite = "Favorite Profile";
+                }else{
+                    $favorite = "Add Favorite";    
+                }
+
+            }else{
+                $favorite = "Add Favorite";
+            }
         }else{
             abort(404);
         }
@@ -387,7 +410,20 @@ class UsersController extends Controller
         $friendsList = User::with('details')->with('photos')->whereIn('id', $friends_ids)->orderBy('id', 'Desc')->get();
         $friendsList = json_decode(json_encode($friendsList));
 
-        return view('users.profile')->with(compact('userDetails', 'friendrequest', 'friendsList'));
+        // Get Favorite List of Opened Profile
+        // echo $username; die;
+        $profile_id = User::getUserId($username);
+        // echo "<pre>"; print_r($profile_id); die;
+        $favorite_ids = Favorite::select('favorite_id')->where('user_id', $profile_id)->get();
+        $favorite_ids = array_flatten(json_decode(json_encode($favorite_ids), true));
+        // echo "<pre>"; print_r($favorite_ids); die; 
+
+        $favoriteList = User::with('details')->with('photos')->whereIn('id', $favorite_ids)->orderBy('id', 'Desc')->get();
+        $favoriteList = json_decode(json_encode($favoriteList));
+        // echo "<pre>"; print_r($favoriteList); die; 
+
+
+        return view('users.profile')->with(compact('userDetails', 'friendrequest', 'friendsList', 'favorite', 'favoriteList'));
     }
 
     public function contactProfile($username, Request $request){
@@ -473,6 +509,32 @@ class UsersController extends Controller
             $friend->save();
         //    echo "Friend request sent to ".$username; die;
             return redirect('/profile/'.$username);
+
+        }else{
+            abort(404);
+        }
+    }
+
+    public function addNewFavorite($username){
+        // echo $username; die;
+        $userCount =  User::where('username', $username)->count();
+        if($userCount > 0){
+            $user_id = Auth()->user()->id;
+            $favorite_id = User::getUserId($username);
+            // echo "test"; die;
+
+            // Check if already Favourite
+            $favoriteCount = Favorite::where(['favorite_id' => $favorite_id, 'user_id' => $user_id])->count();
+            if($favoriteCount > 0){
+              return redirect('/profile/'.$username);
+            }
+
+            $favorite = new Favorite;
+            $favorite->user_id = $user_id;
+            $favorite->favorite_id = $favorite_id;
+            $favorite->save();
+        //    echo "Friend request sent to ".$username; die;
+            return redirect('/profile/'.$username)->with('flash_message_success', 'User has been added to Favorite Profile');
 
         }else{
             abort(404);

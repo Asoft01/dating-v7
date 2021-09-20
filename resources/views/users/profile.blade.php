@@ -6,6 +6,13 @@ use App\User;
 <div id="right_container">
     <div style="padding:20px 15px 30px 15px;">
       <h1>{{ $userDetails->username }}</h1>
+        @if(Session::has('flash_message_success')) 
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div>
+        @endif 
+        
         @foreach($userDetails->photos as $key => $photo)
             @if($photo->default_photo == "Yes")
 				@if(!empty($user_key[$key]->photo))
@@ -89,9 +96,14 @@ use App\User;
         </strong>
         @endif
         <div class="clear"></div>
+        <br>
         @else 
           <strong style="float:right;"><a onclick="return loginUser()" style="color:green">Add a Friend</a></strong>
         @endif
+
+        @if(Auth::check()) <br> @endif
+        <br>
+        <strong style="float:right;"><a @if($favorite != "Favorite Profile") onclick="return favoriteUser()" @endif style="color:green; cursor:pointer">{{ $favorite }}</a></strong>
       </div>
       <div class="clear"></div>
       <br>
@@ -245,6 +257,120 @@ use App\User;
             @endif 
           </div>
       </div>
+
+      <div>
+        <h6 class="inner" style="margin-top:">My Favorite</h6>
+          <div class="recent_add_prifile">
+            {{-- @foreach($recent_users as $user) 
+              @if(!empty($user->details) && $user->details->status == 1 )
+              <div class="profile_box first"> <span class="photo"><a href="#"><img src="{{ asset('images/frontend_images/pic_1.gif') }}" alt="" /></a></span>
+                <p class="left">Name:</p>
+                <p class="right">{{ $user->name }}</p>
+                <p class="left">Location:</p>
+                <p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+                <a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+              </div>
+              @endif
+            @endforeach --}}
+            @if(count($favoriteList)> 0)
+            <?php $count = 1; ?>
+              @foreach($favoriteList as $user) 
+                @if(!empty($user->details) && $user->details->status == 1 )
+                {{-- {{ $key }} --}}
+                {{-- {{ $count }} --}}
+                  @if($count <= 4)
+                    @if(Auth::check())
+                      @if(Auth::check() && Auth::User()->username != $user->details->username)
+                        <div class="profile_box first"> 
+                          <?php
+                            // if(Auth::check()){
+                            // 	// echo Auth::user()->username;
+                            // 	// echo "---";
+                            // 	echo $user->details->username;
+                            // }
+                          ?>
+                          
+                          @foreach($user->photos as $key => $photo)
+                            @if($photo->default_photo == "Yes")
+                              @if(!empty($user_key[$key]->photo))
+                                <?php $user_photo = $user_photo[$key]->photo;  ?>
+                              @endif
+                            @else
+                              <?php $user_photo = $user->photos[0]->photo; ?>
+                            @endif
+                          
+                          @endforeach
+                          @if(!empty($user_photo))
+                            <span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
+                          @else 
+                            <span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
+                          @endif
+          
+                          <p class="left">Name:</p>
+                          <p class="right">{{ $user->name }}</p>
+                          <p class="left">Age:</p>
+                          <p class="right">
+                            <?php 
+                              $dob = $user->details->dob;
+                              echo $diff= date('Y')- date('Y', strtotime($dob))	
+                            ?>Yrs
+                            {{-- {{ $user->details->dob }} --}}
+                          </p>
+                          <p class="left">Location:</p>
+                          <p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+                          <a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+                        </div>
+                        @endif
+                      @else
+                        <div class="profile_box first"> 
+                          <?php
+                            // if(Auth::check()){
+                            // 	// echo Auth::user()->username;
+                            // 	// echo "---";
+                            // 	echo $user->details->username;
+                            // }
+                          ?>
+                          
+                          @foreach($user->photos as $key => $photo)
+                            @if($photo->default_photo == "Yes")
+                              @if(!empty($user_key[$key]->photo))
+                                <?php $user_photo = $user_photo[$key]->photo;  ?>
+                              @endif
+                            @else
+                              <?php $user_photo = $user->photos[0]->photo; ?>
+                            @endif
+                          
+                          @endforeach
+                          @if(!empty($user_photo))
+                            <span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/'.$user_photo) }}" alt="" /></a></span>
+                          @else 
+                            <span class="photo"><a href="{{ url('profile/'.$user->username) }}"><img src="{{ asset('images/frontend_images/photos/default.jpg') }}" alt="" /></a></span>
+                          @endif
+          
+                          <p class="left">Name:</p>
+                          <p class="right">{{ $user->name }}</p>
+                          <p class="left">Age:</p>
+                          <p class="right">
+                            <?php 
+                              $dob = $user->details->dob;
+                              echo $diff= date('Y')- date('Y', strtotime($dob))	
+                            ?>Yrs
+                            {{-- {{ $user->details->dob }} --}}
+                          </p>
+                          <p class="left">Location:</p>
+                          <p class="right"> @if(!empty($user->details->city))  {{ $user->details->city }} @endif</p>
+                          <a href="#"><img src="{{ asset('images/frontend_images/more_btn.gif') }}" alt="" class="more_1" /></a> 
+                        </div>
+                      @endif
+                    <?php $count = $count + 1;  ?>
+                  @endif
+                @endif
+              @endforeach
+            @else 
+            No Friends 
+            @endif 
+          </div>
+      </div>
   </div>
 @endsection
 
@@ -252,5 +378,12 @@ use App\User;
   function loginUser(){
     alert("Please login to add friend");
     window.location = "/add-new-friend/<?php echo $userDetails->username; ?>";
+  }
+
+  function favoriteUser(){
+    @if(!Auth::check())
+      alert("Please login to add this user as favorite");
+    @endif
+    window.location = "/add-new-favorite/<?php echo $userDetails->username; ?>";
   }
 </script>
