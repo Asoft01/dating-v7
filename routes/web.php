@@ -15,12 +15,26 @@
 //     return view('welcome');
 // });
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'IndexController@index');
 
 Route::any('/register', 'UsersController@register');
+
+// Route::get('/chat/{username}', function($username){
+//     return view('users.chat')->with(compact('username'));
+// });
+
+
 Route::get('/profile/{username}', 'UsersController@viewProfile');
 
 Route::group(['middleware'=> ['frontlogin']], function(){
+    Route::get('/chat/{username}', 'ChatController@userChatBox');
+    Route::post('/chat/sendMessage', 'ChatController@sendMessage');
+    Route::post('/chat/isTyping', 'ChatController@isTyping');
+    Route::post('/chat/notTyping', 'ChatController@notTyping');
+    Route::post('/chat/retrieveChatMessages', 'ChatController@retrieveChatMessages');
+    Route::post('/chat/retrieveTypingStatus', 'ChatController@retrieveTypingStatus');
     Route::any('/step/2', 'UsersController@step2');
     Route::any('/step/3', 'UsersController@step3');
     Route::get('/review', 'UsersController@review');    

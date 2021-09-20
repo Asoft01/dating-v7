@@ -46,3 +46,5 @@ https://slideshow.triptracker.net/
 
 Chat Box Integration
 https://www.cbox.ws/admin?home
+
+ php artisan make:migration add_column_to_users

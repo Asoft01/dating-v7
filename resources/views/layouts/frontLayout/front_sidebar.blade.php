@@ -161,7 +161,10 @@ if (Auth::check()) {
         </div>
       </div>
     <div class="dating_news">
-      <h2>dating news </h2>
+      <h2>Chat Room </h2>
+      @if(Auth::check() && $datingCount==1)
+         <h3><a target="__blank" href="{{ url('chat/'.Auth::User()['username']) }}">Live Chat Room</a></h3>
+      @endif
       <div class="news_detail">
         <iframe src="https://www5.cbox.ws/box/?boxid=928573&boxtag=VbRwrn" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
       </div>
